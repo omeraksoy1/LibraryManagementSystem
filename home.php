@@ -23,10 +23,10 @@
     <div class="row">
         <div class="column any" style="background-color:#FFFFFF;">
             <h2>Book Search</h2>
-            <p> <form action='lib_result.php' method='post'>
+            <form action='lib_result.php' method='post'>
                     <label>Book Title: </label><input type='text' name='population_insert' /><br/>
                     <input name="book_search", value='Search' type='submit'/></p>
-    </form></p>
+                </form>
         </div>
         <div class="column any" style="background-color:#FFFFFF;">
             <h2>Author Search</h2>
