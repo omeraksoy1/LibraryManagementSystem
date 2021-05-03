@@ -16,33 +16,56 @@
     display: table;
     clear: both;
     }
+
+    .vl {
+    border-left: 2px solid black;
+    height: 500px;
+    left: 20%;
+    }
+    
     </style></head>
+    
     <body>
     <center><big><big><big><big><strong>Library Management System</strong></big></big></big></big></center>
 
     <div class="row">
         <div class="column any" style="background-color:#FFFFFF;">
             <h2>Book Search</h2>
-            <form action='lib_result.php' method='post'>
-                    <label>Book Title: </label><input type='text' name='population_insert' /><br/>
-                    <input name="book_search", value='Search' type='submit'/></p>
+            <p><strong>By Title</strong></p>
+                <form action='lib_result.php' method='post'>
+                    <label>Book Title: </label><input type='text' name='book_title'/><br/>
+                    <input name="book_search_title", value='Search' type='submit'/></p> <br/>
                 </form>
+            <p><strong>By ID Number</strong></p>
+                <form action='lib_result.php' method='post'>
+                        <label>Book ID: </label><input type='text' name='book_id'/><br/>
+                        <input name="book_search_id", value='Search' type='submit'/></p>
+                    </form>
+            <p><strong>By Page Number</strong></p>
+                <form action='lib_result.php' method='post'>
+                        <label>Number of Pages: </label><input type='text' name='book_page'/><br/>
+                        <input name="book_search_page", value='Search' type='submit'/></p>
+                    </form>
         </div>
         <div class="column any" style="background-color:#FFFFFF;">
             <h2>Author Search</h2>
-            <p>Data..</p>
+            <p><strong>By Name</strong></p>
+                <form action='lib_result.php' method='post'>
+                    <label>Author Name: </label><input type='text' name='author_name'/><br/>
+                    <input name="author_search_name", value='Search' type='submit'/></p> <br/>
+                </form>
         </div>
         <div class="column any" style="background-color:#FFFFFF;">
             <h2>Publisher Search</h2>
-            <p>Data..</p>
+            <p></p>
         </div>
         <div class="column any" style="background-color:#FFFFFF;">
-            <h2>Column 4</h2>
-            <p>Data..</p>
+            <h2>Student Search</h2>
+            <p></p>
         </div>
         <div class="column any" style="background-color:#FFFFFF;">
             <h2>Column 5</h2>
-            <p>Data..</p>
+            <p></p>
         </div>
     </div>
 
