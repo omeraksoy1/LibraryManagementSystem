@@ -1,12 +1,19 @@
 <html>
-<head></head>
+<head><strong><big>Book Checkout</big></strong>
+    <style>
+        label {
+            width: 100px;
+            display: inline-block;
+        }
+    </style>
+    </head>
 <body>
 
 	<form action='result.php' method='post'>
-        <label>bookID:         </label> <input type='number' name='bookID' /><br/>
-        <label>SID:        </label><input type='number' name='SID' /><br/>
-        <label>BorrowDate: </label><input type='date' name='BorrowDate' /><br/>
-        <input name="borrow_book", value='Borrow' type='submit'/></p>
+        <label>Book ID:         </label><input type='number' name='bookID' /><br/>
+        <label>Student ID:        </label><input type='number' name='SID' /><br/>
+        <label>Borrow Date: </label><input type='date' name='BorrowDate' /><br/>
+        <input name="borrow_book", value='Checkout' type='submit'/></p>
     </form>
 	
     <hr>

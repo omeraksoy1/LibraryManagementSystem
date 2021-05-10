@@ -32,25 +32,30 @@
         <div class="column any" style="background-color:#FFFFFF;">
             <h2>Book Search</h2>
             <p><strong>By Title</strong></p>
-                <form action='lib_result.php' method='post'>
-                    <label>Book Title: </label><input type='text' name='book_title'/><br/>
-                    <input name="book_search_title", value='Search' type='submit'/></p> <br/>
+                <form action='result.php' method='post'>
+                    <label>Book Title: </label><input type='text' name='book_title'/>
+                    <input name="book_search_title", value='Search' type='submit'/></p><br/>
                 </form>
             <p><strong>By ID Number</strong></p>
-                <form action='lib_result.php' method='post'>
-                        <label>Book ID: </label><input type='text' name='book_id'/><br/>
-                        <input name="book_search_id", value='Search' type='submit'/></p>
+                <form action='result.php' method='post'>
+                        <label>Book ID: </label><input type='text' name='book_id'/>
+                        <input name="book_search_id", value='Search' type='submit'/></p><br/>
                     </form>
-            <p><strong>By Page Number</strong></p>
-                <form action='lib_result.php' method='post'>
-                        <label>Number of Pages: </label><input type='text' name='book_page'/><br/>
-                        <input name="book_search_page", value='Search' type='submit'/></p>
+            <p><strong>By Rating</strong></p>
+                <form action='result.php' method='post'>
+                        <label>Rating: </label><input type='text' name='book_rating'/>
+                        <select name="operation">
+                            <option value="greater">MORE THAN</option>
+                            <option value="less">   LESS THAN</option>
+                            <option value="equal">  EXACTLY</option>
+                            </select>
+                        <input name="book_search_rating", value='Search' type='submit'/></p><br/>
                     </form>
         </div>
         <div class="column any" style="background-color:#FFFFFF;">
             <h2>Author Search</h2>
             <p><strong>By Name</strong></p>
-                <form action='lib_result.php' method='post'>
+                <form action='result.php' method='post'>
                     <label>Author Name: </label><input type='text' name='author_name'/><br/>
                     <input name="author_search_name", value='Search' type='submit'/></p> <br/>
                 </form>

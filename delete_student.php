@@ -1,9 +1,16 @@
 <html>
-<head></head>
+<head><strong><big>Delete Student</big></strong>
+    <style>
+        label {
+            width: 80px;
+            display: inline-block;
+        }
+    </style>
+    </head>
 <body>
 
     <form action='result.php' method='post'>
-        <label>SID:</label><input type='number' name='SID' /><input name="delete_student", value='delete' type='submit'/></p>
+        <label>Student ID:</label><input type='number' name='SID' /><input name="delete_student", value='Delete' type='submit'/></p>
     </form>
     <hr>
 

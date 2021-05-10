@@ -1,9 +1,16 @@
 <html>
-<head></head>
+<head><strong><big>Delete Book</big></strong>
+    <style>
+        label {
+            width: 50px;
+            display: inline-block;
+        }
+    </style>
+    </head>
 <body>
 
     <form action='result.php' method='post'>
-        <label>bookID:</label><input type='number' name='bookID' /><input name="delete_book", value='delete' type='submit'/></p>
+        <label>ID: </label><input type='number' name='bookID' /><input name="delete_book", value='Delete' type='submit'/></p>
     </form>
     <hr>
 
