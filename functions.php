@@ -94,6 +94,7 @@ function check_Entry_Year($Entry_Year){
 function search($conn, $where_string, $table_name){
     $is_contains = False;
 	$sql = "SELECT * FROM ".$table_name." WHERE ".$where_string.";";
+	#echo $sql;
     if ($result = mysqli_query($conn, $sql)) {
 		$rowCount = mysqli_num_rows($result);
 		if( $rowCount > 0){
