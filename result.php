@@ -62,6 +62,8 @@ if (isset($_POST['search_book'])){
     $title = $_POST["title"];
     $authors = $_POST["authors"];
     $average_rating = $_POST["average_rating"];
+	$operation = $_POST["operation"];
+	#echo $operation;
     $isbn = $_POST["isbn"];
 
 	$where_string = "";
@@ -95,14 +97,30 @@ if (isset($_POST['search_book'])){
 		if(check_average_rating($average_rating) !== true){
 			exit("average_rating must be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
 		}
-		$where_string = $where_string." and average_rating = ".$average_rating;
+		if( $operation == "greater"){
+			$operation_symbol = ">";
+		}elseif( $operation == "less"){
+			$operation_symbol = "<";
+		}elseif( $operation == "equal"){
+			$operation_symbol = "=";
+		}
+		
+		if(empty($where_string) !== true){
+			$where_string = "average_rating ".$operation_symbol." ".$average_rating." and ".$where_string;
+		}else{
+			$where_string = "average_rating ".$operation_symbol." ".$average_rating;
+		}
 	}
     
 	if(empty($isbn) !== true){
 		if(check_isbn($isbn) !== true){
 			exit("isbn must be numeric!");
 		}
-		$where_string = $where_string." and isbn = ".$isbn;
+		if(empty($where_string) !== true){
+			$where_string = "isbn = ".$isbn." and ".$where_string;
+		}else{
+			$where_string = "isbn = ".$isbn;
+		}
 	}
     
 	if( empty($where_string)){
@@ -113,7 +131,7 @@ if (isset($_POST['search_book'])){
 		print_table("books", $result);
 		echo "<form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
 	}else{
-		 exit("Not found!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+		exit("Not found!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
 	}
 }
 
@@ -122,25 +140,105 @@ if (isset($_POST['borrow_book'])){
     $bookID = $_POST["bookID"];
     $SID = $_POST["SID"];
     $my_borrow_date = $_POST["BorrowDate"];
-   
+    $LID = $_POST["LID"];
 
 	if(empty($bookID) !== true){
 		if(check_bookID($bookID) !== true){
 			exit("bookID must be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
 		}
+		$result = is_contains($conn, $bookID, "bookID", "books");
+		if( $result == false){
+			exit("<br>This bookID does not exist!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+		}
+		$result = is_contains($conn, $SID, "SID", "students");
+		if( $result == false){
+			exit("<br>This SID does not exist!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+		}
+		$result = is_contains($conn, $LID, "LID", "librarian");
+		if( $result == false){
+			exit("<br>This LID does not exist!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+		}
+		
+		$date1 = new DateTime($my_borrow_date);
+		$date2 = new DateTime(date("Y-m-d")); #date method returns system's current date.
+		$diff = $date1->diff($date2);
+		#echo $diff->format("%r%a");
+		if($diff->format("%r%a") > 0){
+			echo "cannot borrow because borrow date cannot be a past date!";
+			exit("<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+		}	
+		
 		$where_string = "bookID = ".$bookID;
 		$result = search($conn, $where_string, "borrows");
 		if( $result != False){
 			foreach( $result as $row){
-				#echo $row["ReturnDate"];
-				$database_return_date = $row["ReturnDate"];
+				#echo $row["ReturnDateDeadline"];
+				$database_return_date = $row["ReturnDateDeadline"];
 				$date1 = new DateTime($my_borrow_date);
 				$date2 = new DateTime($database_return_date);
-				$diff = date_diff($date1, $date2)->d;
-				if($diff > 0){
+				$diff = $date1->diff($date2);
+				#echo $diff->format("%r%a");
+				if($diff->format("%r%a") > 0){
 					echo "cannot borrow because this book's return date is ".$database_return_date;
+					exit("<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
 				}	
 			}
+			$my_return_date = strtotime("+7 day", strtotime($my_borrow_date));
+			#echo $my_return_date;
+			#echo date('Y-m-d', $my_return_date);
+			insert_borrow($conn, $bookID, $SID, $my_borrow_date, date('Y-m-d', $my_return_date), $LID); 
+		}else{
+			$my_return_date = strtotime("+7 day", strtotime($my_borrow_date));
+			#echo $my_return_date;
+			#echo date('Y-m-d', $my_return_date);
+			insert_borrow($conn, $bookID, $SID, $my_borrow_date, date('Y-m-d', $my_return_date), $LID);
+		}
+	}
+}
+
+if (isset($_POST['return_book'])){
+
+    $bookID = $_POST["bookID"];
+    $SID = $_POST["SID"];
+    $my_return_date = $_POST["ReturnDate"];
+    $LID = $_POST["LID"];
+
+	if(empty($bookID) !== true){
+		if(check_bookID($bookID) !== true){
+			exit("bookID must be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+		}
+		$result = is_contains($conn, $bookID, "bookID", "books");
+		if( $result == false){
+			exit("<br>This bookID does not exist!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+		}
+		$result = is_contains($conn, $SID, "SID", "students");
+		if( $result == false){
+			exit("<br>This SID does not exist!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+		}
+		$result = is_contains($conn, $LID, "LID", "librarian");
+		if( $result == false){
+			exit("<br>This LID does not exist!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+		}
+		
+		$where_string = "bookID = ".$bookID." and SID = ".$SID." and ReturnDate = NULL";
+		$result = search($conn, $where_string, "borrows");
+		if( $result != False){
+			$row = mysql_fetch_row($result);
+			$deadline = $row["ReturnDateDeadline"];
+			$date1 = new DateTime($my_return_date);
+			$date2 = new DateTime($deadline);
+			$diff = $date1->diff($date2);
+			#echo $diff->format("%r%a");
+			if($diff->format("%r%a") >= 0){ #safe zone, no penalty
+	#TODO!!!!!!
+				update_borrow($conn, $bookID, $SID, $row["BorrowDate"], $my_return_date);
+				echo "Your book is returned without penalty!";
+				exit("<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+			}else{ #penalty!
+			
+			}
+		}else{
+			exit("<br>You do not have any borrow record for this book!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
 		}
 	}
 }

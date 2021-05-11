@@ -53,12 +53,32 @@ function remove_book($conn, $bookID){
     }
 }
 
+function update_borrow($conn, $bookID, $SID, $BorrowDate, $my_return_date){
+	$sql = "UPDATE borrows SET ReturnDate = ".$my_return_date." WHERE bookID=".$bookID." and SID = ".$SID." and BorrowDate = ".$BorrowDate;
+    if ($result = mysqli_query($conn, $sql)) {
+        echo "<br>Borrow updated successfully!";
+    } else {
+        echo "Error updating borrow: " . $conn->error;
+    }
+}
+
 function insert_student($conn, $SID, $Name, $Surname, $Department, $Entry_Year){
     $sql = "INSERT INTO students(SID, Name, Surname, Department, Entry_Year) VALUES('$SID', '$Name', '$Surname', '$Department', '$Entry_Year');";
     if ($result = mysqli_query($conn, $sql)) {
         echo "<br>Student inserted successfully<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
     } else {
         echo "<br>Error inserting student: " . $conn->error . "<br>";
+    }
+}
+
+function insert_borrow($conn, $bookID, $SID, $my_borrow_date, $my_return_date, $LID){
+	$sql = "INSERT INTO borrows(bookID, SID, BorrowDate, ReturnDateDeadline, LID) VALUES('$bookID', '$SID', '$my_borrow_date', '$my_return_date', '$LID');";
+    if ($result = mysqli_query($conn, $sql)) {
+        echo "<br>Borrow operation is successful!";
+		echo "<br>Your return date deadline is ".$my_return_date;
+		echo "<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
+	} else {
+        echo "<br>Error in borrow: " . $conn->error . "<br>";
     }
 }
 

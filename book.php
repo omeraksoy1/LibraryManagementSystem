@@ -28,6 +28,12 @@
     <input type="submit" value="Borrow Book" />
 </form>
 
+<br>
+
+<form action="return_book.php">
+    <input type="submit" value="Return Book" />
+</form>
+
 <hr>
 
 	<br>

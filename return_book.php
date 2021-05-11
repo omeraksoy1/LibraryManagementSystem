@@ -1,5 +1,5 @@
 <html>
-<head><strong><big>Book Checkout</big></strong>
+<head><strong><big>Return Book</big></strong>
     <style>
         label {
             width: 100px;
@@ -12,9 +12,9 @@
 	<form action='result.php' method='post'>
         <label>Book ID:         </label><input type='number' name='bookID' /><br/>
         <label>Student ID:        </label><input type='number' name='SID' /><br/>
-        <label>Borrow Date: </label><input type='date' name='BorrowDate' /><br/>
+        <label>Return Date: </label><input type='date' name='ReturnDate'/><br/>
         <label>Librarian ID:        </label><input type='number' name='LID' /><br/>
-		<input name="borrow_book", value='Checkout' type='submit'/></p>
+		<input name="return_book", value='Checkout' type='submit'/></p>
     </form>
 	
     <hr>
