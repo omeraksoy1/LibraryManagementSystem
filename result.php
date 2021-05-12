@@ -90,7 +90,11 @@ if (isset($_POST['search_book'])){
 		if(check_authors($authors) !== true){
 			exit("authors cannot be empty!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
 		}
-		$where_string = $where_string." and authors like '%".$authors."%'";
+		if(empty($where_string) !== true){
+			$where_string = "authors like '%".$authors."%' and ".$where_string;
+		}else{
+			$where_string = "authors like '%".$authors."%'";
+		}
 	}
 	
 	if(empty($average_rating) !== true){
@@ -172,16 +176,23 @@ if (isset($_POST['borrow_book'])){
 		$result = search($conn, $where_string, "borrows");
 		if( $result != False){
 			foreach( $result as $row){
-				#echo $row["ReturnDateDeadline"];
-				$database_return_date = $row["ReturnDateDeadline"];
-				$date1 = new DateTime($my_borrow_date);
-				$date2 = new DateTime($database_return_date);
-				$diff = $date1->diff($date2);
-				#echo $diff->format("%r%a");
-				if($diff->format("%r%a") > 0){
-					echo "cannot borrow because this book's return date is ".$database_return_date;
+				if( is_null($row["ReturnDate"])){
+					#echo $row["ReturnDateDeadline"];
+					#database_return_date = $row["ReturnDateDeadline"];
+					echo "Cannot borrow because this book is not returned yet.";
 					exit("<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
-				}	
+				}else{
+					$database_return_date = $row["ReturnDate"];
+					$date1 = new DateTime($my_borrow_date);
+					$date2 = new DateTime($database_return_date);
+					$diff = $date1->diff($date2);
+					#echo $diff->format("%r%a");
+					if($diff->format("%r%a") > 0){
+						echo "cannot borrow because this book's return date is ".$database_return_date;
+						exit("<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+					}	
+				}
+				
 			}
 			$my_return_date = strtotime("+7 day", strtotime($my_borrow_date));
 			#echo $my_return_date;
@@ -220,22 +231,27 @@ if (isset($_POST['return_book'])){
 			exit("<br>This LID does not exist!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
 		}
 		
-		$where_string = "bookID = ".$bookID." and SID = ".$SID." and ReturnDate = NULL";
+		$where_string = "bookID = ".$bookID." and SID = ".$SID." and ReturnDate is NULL";
 		$result = search($conn, $where_string, "borrows");
 		if( $result != False){
-			$row = mysql_fetch_row($result);
-			$deadline = $row["ReturnDateDeadline"];
+			$row = mysqli_fetch_row($result);
+			$deadline = $row[3];
 			$date1 = new DateTime($my_return_date);
 			$date2 = new DateTime($deadline);
-			$diff = $date1->diff($date2);
+			$diff = $date1->diff($date2); #date2 - date1
 			#echo $diff->format("%r%a");
-			if($diff->format("%r%a") >= 0){ #safe zone, no penalty
-	#TODO!!!!!!
-				update_borrow($conn, $bookID, $SID, $row["BorrowDate"], $my_return_date);
+			if($diff->format("%r%a") >= 0){ #no penalty
+				update_borrow($conn, $bookID, $SID, $row[2], $my_return_date, $LID, 0);
 				echo "Your book is returned without penalty!";
 				exit("<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
 			}else{ #penalty!
-			
+				$penalty = -0.5 * $diff->format("%r%a");
+				update_borrow($conn, $bookID, $SID, $row[2], $my_return_date, $LID, $penalty);
+				echo "Your return deadline was ".$deadline;
+				echo "<br>Your real return date is ".$my_return_date;
+				echo "<br>You are late for ".(-1*$diff->format("%r%a"))." days.";
+				echo "<br>You have return penalty: ".$penalty." TL";
+				exit("<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
 			}
 		}else{
 			exit("<br>You do not have any borrow record for this book!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");

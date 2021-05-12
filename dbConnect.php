@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "admin1587303*";
-$dbname = "librarydb";
+$password = "12345";
+$dbname = "lib1205";
 
 // Create connection
 $conn = mysqli_connect($servername,$username,$password,$dbname);

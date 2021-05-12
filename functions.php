@@ -53,9 +53,10 @@ function remove_book($conn, $bookID){
     }
 }
 
-function update_borrow($conn, $bookID, $SID, $BorrowDate, $my_return_date){
-	$sql = "UPDATE borrows SET ReturnDate = ".$my_return_date." WHERE bookID=".$bookID." and SID = ".$SID." and BorrowDate = ".$BorrowDate;
-    if ($result = mysqli_query($conn, $sql)) {
+function update_borrow($conn, $bookID, $SID, $BorrowDate, $my_return_date, $LID, $penalty_amount){
+	$sql = "UPDATE borrows SET ReturnDate = '".$my_return_date."', LID_return = ".$LID.", penalty_amount=".$penalty_amount." WHERE bookID=".$bookID." and SID = ".$SID." and BorrowDate = '".$BorrowDate."'";
+    #echo $sql;
+	if ($result = mysqli_query($conn, $sql)) {
         echo "<br>Borrow updated successfully!";
     } else {
         echo "Error updating borrow: " . $conn->error;
@@ -72,7 +73,7 @@ function insert_student($conn, $SID, $Name, $Surname, $Department, $Entry_Year){
 }
 
 function insert_borrow($conn, $bookID, $SID, $my_borrow_date, $my_return_date, $LID){
-	$sql = "INSERT INTO borrows(bookID, SID, BorrowDate, ReturnDateDeadline, LID) VALUES('$bookID', '$SID', '$my_borrow_date', '$my_return_date', '$LID');";
+	$sql = "INSERT INTO borrows(bookID, SID, BorrowDate, ReturnDateDeadline, LID_borrow) VALUES('$bookID', '$SID', '$my_borrow_date', '$my_return_date', '$LID');";
     if ($result = mysqli_query($conn, $sql)) {
         echo "<br>Borrow operation is successful!";
 		echo "<br>Your return date deadline is ".$my_return_date;
@@ -170,78 +171,6 @@ function print_table($table_name, $result){
         }
 
         echo "</table>";
-    }
-
-}
-
-
-
-
-
-
-
-function diff_lang($conn, $country1, $country2){
-
-    $result = Null;
-    ########
-    #PLease enter your code here
-
-    ########
-    return $result;
-}
-
-function diff_lang_join($conn, $countryCode1, $countryCode2){
-
-    $result = Null;
-    ########
-    #PLease enter your code here
-
-    ########
-    return $result;
-}
-
-function aggregate_countries($conn,$agg_type, $country_name){
-
-    $result = Null;
-    ########
-    #PLease enter your code here
-
-    ########
-    return $result;
-}
-
-
-
-
-
-function insert_city($conn,$cid, $name, $country_code, $district, $population){
-
-
-    $sql = "INSERT INTO city(ID, Name, CountryCode, District, Population) VALUES('$cid', '$name', '$country_code', '$district','$population');";
-    if ($conn->query($sql) === TRUE) { #We used different function to run our query.
-        echo "<br>Record updated successfully<br>";
-    } else {
-        echo "<br>Error updating record: " . $conn->error . "<br>";
-    }
-}
-
-function remove_city($conn,$cid){
-    $sql = "DELETE FROM city WHERE ID='$cid'";
-    if ($conn->query($sql) === TRUE) {
-        echo "Record updated successfully";
-    } else {
-        echo "Error updating record: " . $conn->error;
-    }
-
-}
-
-function manipulate_city($conn,$cid,$name){
-
-    $sql = "UPDATE city SET Name='$name' WHERE ID='$cid'" ;
-    if ($conn->query($sql) === TRUE) {
-        echo "Record updated successfully";
-    } else {
-        echo "Error updating record: " . $conn->error;
     }
 
 }

@@ -13,7 +13,7 @@
         <label>Book ID:         </label><input type='number' name='bookID' /><br/>
         <label>Student ID:        </label><input type='number' name='SID' /><br/>
         <label>Return Date: </label><input type='date' name='ReturnDate'/><br/>
-        <label>Librarian ID:        </label><input type='number' name='LID' /><br/>
+        <label>Librarian ID (return):        </label><input type='number' name='LID' /><br/>
 		<input name="return_book", value='Checkout' type='submit'/></p>
     </form>
 	

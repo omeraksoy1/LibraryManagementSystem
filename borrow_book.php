@@ -13,7 +13,7 @@
         <label>Book ID:         </label><input type='number' name='bookID' /><br/>
         <label>Student ID:        </label><input type='number' name='SID' /><br/>
         <label>Borrow Date: </label><input type='date' name='BorrowDate' /><br/>
-        <label>Librarian ID:        </label><input type='number' name='LID' /><br/>
+        <label>Librarian ID (borrow):        </label><input type='number' name='LID' /><br/>
 		<input name="borrow_book", value='Checkout' type='submit'/></p>
     </form>
 	
