@@ -311,3 +311,78 @@ if (isset($_POST['delete_student'])){
 	
     remove_student($conn, $SID);
 }
+
+if (isset($_POST['search_student'])) {
+
+	$SID = $_POST["SID"];
+
+	if(check_SID($SID) !== true){
+        exit("<br>SID must be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+    }
+	$sql = "SELECT * FROM students WHERE SID='$SID'";
+
+    if ($result = mysqli_query($conn, $sql)) {
+		echo print_table("students", $result);
+        echo "<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
+    } else {
+        echo "Error finding student: " . $conn->error;
+    }
+	
+}
+
+if (isset($_POST['insert_author'])) {
+
+	$name = $_POST["author_name"];
+	$year = $_POST["author_bdate"];
+	$country = $_POST["author_country"];
+	$gender = $_POST["author_gender"];
+
+	if (check_author_name($name) !== true) {
+		exit("<br>Name cannot be empty!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+	}
+
+	if (check_author_bdate($year) !== true) {
+		exit("<br>Year must be numeric and less than 2010!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+	}
+
+	if (check_author_country($country) !== true) {
+		exit("<br>Country cannot be empty!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+	}
+
+	if (check_author_gender($gender) !== true) {
+		exit("<br>Gender cannot be empty or numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+	}
+
+	$sql = "INSERT INTO authors
+				VALUES ('$name', '$year', '$country', '$gender')";
+	
+	if ($result = mysqli_query($conn, $sql)) {
+		echo "<br>Author inserted successfully<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
+	} else {
+		echo "Error inserting author: " . $conn->error;
+	}
+}
+
+if (isset($_POST['delete_author'])) {
+
+	$name = $_POST["author_name"];
+
+	if (check_author_name($name) !== true) {
+		exit("<br>Name cannot be empty!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+	}
+
+	$exists = "SELECT * FROM authors WHERE Author LIKE ".$name.";";
+
+	if ($exists = mysqli_query($conn, $exists)) {
+		exit("<br>This author does not exist!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+	}
+	
+	$sql = "DELETE FROM authors WHERE Author LIKE '$name';";
+
+	if ($result = mysqli_query($conn, $sql)) {
+		echo "<br>Author deleted successfully<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
+	} else {
+        echo "Error deleting author: " . $conn->error;
+    }
+
+}

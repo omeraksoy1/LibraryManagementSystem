@@ -112,6 +112,24 @@ function check_Entry_Year($Entry_Year){
     return is_numeric($Entry_Year);
 }
 
+# control functions for author
+
+function check_author_name($name) {
+    return strlen($name) > 0;
+}
+
+function check_author_bdate($year) {
+    return is_numeric($year) and $year < 2010;
+}
+
+function check_author_country($country) {
+    return strlen($country) > 0;
+}
+
+function check_author_gender($gender) {
+    return strlen($gender) > 0 and ctype_alpha($gender);
+}
+
 function search($conn, $where_string, $table_name){
     $is_contains = False;
 	$sql = "SELECT * FROM ".$table_name." WHERE ".$where_string.";";
@@ -166,6 +184,53 @@ function print_table($table_name, $result){
             echo "<td>" . $row['average_rating'] . "</td>";
 
             echo "<td>" . $row['isbn'] . "</td>";
+
+            echo "</tr>";
+        }
+
+        echo "</table>";
+    }
+
+    if ($table_name === 'students'){
+
+        ?><br>
+
+        <table border='1'>
+
+        <tr>
+
+        <th>SID</th>
+
+        <th>Name</th>
+
+        <th>Surname</th>
+
+        <th>Department</th>
+
+        <th>Entry_Year</th>
+
+        <th>Mail</th>
+
+        </tr>
+
+        <?php
+
+
+        foreach($result as $row){
+
+            echo "<tr>";
+
+            echo "<td>" . $row['SID'] . "</td>";
+
+            echo "<td>" . $row['Name'] . "</td>";
+
+            echo "<td>" . $row['Surname'] . "</td>";
+
+            echo "<td>" . $row['Department'] . "</td>";
+
+            echo "<td>" . $row['Entry_Year'] . "</td>";
+
+            echo "<td>" . $row['Mail'] . "</td>";
 
             echo "</tr>";
         }
