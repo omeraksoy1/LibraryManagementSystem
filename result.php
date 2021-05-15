@@ -246,7 +246,7 @@ if (isset($_POST['return_book'])){
 				exit("<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
 			}else{ #penalty!
 				$penalty = -0.5 * $diff->format("%r%a");
-				update_borrow($conn, $bookID, $SID, $row[2], $my_return_date, $LID, $penalty);
+				update_borrow($conn, $bookID, $SID, $row[2], $my_return_date, $LID);
 				echo "Your return deadline was ".$deadline;
 				echo "<br>Your real return date is ".$my_return_date;
 				echo "<br>You are late for ".(-1*$diff->format("%r%a"))." days.";

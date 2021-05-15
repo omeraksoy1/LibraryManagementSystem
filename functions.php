@@ -53,8 +53,8 @@ function remove_book($conn, $bookID){
     }
 }
 
-function update_borrow($conn, $bookID, $SID, $BorrowDate, $my_return_date, $LID, $penalty_amount){
-	$sql = "UPDATE borrows SET ReturnDate = '".$my_return_date."', LID_return = ".$LID.", penalty_amount=".$penalty_amount." WHERE bookID=".$bookID." and SID = ".$SID." and BorrowDate = '".$BorrowDate."'";
+function update_borrow($conn, $bookID, $SID, $BorrowDate, $my_return_date, $LID){
+	$sql = "UPDATE borrows SET ReturnDate = '".$my_return_date."', LID_return = ".$LID." WHERE bookID=".$bookID." and SID = ".$SID." and BorrowDate = '".$BorrowDate."'";
     #echo $sql;
 	if ($result = mysqli_query($conn, $sql)) {
         echo "<br>Borrow updated successfully!";
