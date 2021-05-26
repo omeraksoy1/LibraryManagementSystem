@@ -25,6 +25,12 @@
     <input type="submit" value="Author Operations" />
 </form>
 
+<br/>
+
+<form action="advanced_queries.php">
+    <input type="submit" value="Advanced Operations" />
+</form>
+
  
 </body>
 </html>
