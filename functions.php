@@ -303,4 +303,34 @@ function print_table($table_name, $result){
         echo "</table>";
     }
 
+    if ($table_name === 'n_book_before_age') {
+
+        ?><br>
+
+        <table border='1'>
+
+        <tr>
+
+        <th>Author</th>
+
+        <th>Number of Books</th>
+
+        </tr>
+
+        <?php
+
+        foreach($result as $row){
+
+            echo "<tr>";
+
+            echo "<td>" . $row['Author'] . "</td>";
+
+            echo "<td>" . $row['NumberOfBooks'] . "</td>";
+
+            echo "</tr>";
+        }
+
+        echo "</table>";
+    }
+
 }

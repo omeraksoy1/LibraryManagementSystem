@@ -18,8 +18,8 @@
 
 <br>
 
-<form action="placeholder2.php">
-    <input type="submit" value="Placeholder 2" />
+<form action="n_book_before_age.php">
+    <input type="submit" value="No. of Books Before Age" />
 </form>
 
 <br>

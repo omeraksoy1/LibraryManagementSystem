@@ -392,6 +392,10 @@ if (isset($_POST['author_n_book_query'])) {
 	$order = $_POST["order_by"];
 	$orderCol = $_POST["order_col"];
 
+	if (is_numeric($numBook) !== true) {
+		exit("<br>No. of Books should be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+	}
+
 	$sql = "SELECT B.authors as Author, count(*) as NumberOfBooks, round(avg(B.average_rating), 2) as AverageRating
 			FROM books as B, authors as A
 			WHERE B.authors=A.author
@@ -412,10 +416,15 @@ if (isset($_POST['average_age_by_rating'])) {
 	$rating = $_POST["average_rating"];
 	$order = $_POST["order_by"];
 	$orderCol = $_POST["order_col"];
+	$comparison = $_POST["operation"];
+
+	if (is_numeric($rating) !== true) {
+		exit("<br>Rating should be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+	}
 
 	$sql = "SELECT Category, AVG(publication_date - Bdate) as Average_Age
 			FROM books B,authors A, section S
-			WHERE B.authors=A.Author and S.sectionid=B.SectionID and average_rating > $rating
+			WHERE B.authors=A.Author and S.sectionid=B.SectionID and average_rating ".$comparison." $rating
 			GROUP BY Category 
 			ORDER BY $orderCol $order";
 
@@ -426,3 +435,39 @@ if (isset($_POST['average_age_by_rating'])) {
 		echo "Error finding authors: " . $conn->error;
 	}
 }
+
+if (isset($_POST['n_book_before_age'])) {
+
+	$numBook = $_POST["no_of_books"];
+	$age = $_POST["age"];
+	$order = $_POST["order_by"];
+	$orderCol = $_POST["order_col"];
+
+	if (is_numeric($numBook) !== true) {
+		exit("<br>No. of Books should be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+	}
+
+	if (is_numeric($age) !== true) {
+		exit("<br>Age should be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+	}
+
+	$sql = "SELECT authors as Author, count(*) as NumberOfBooks
+			FROM books B,authors A
+			WHERE B.authors=A.Author AND (B.publication_date-Bdate)<$age
+			AND A.Author in (	SELECT authors
+								FROM books B
+								GROUP BY authors
+								HAVING count(*)>$numBook)
+			GROUP BY authors
+			HAVING count(*)>$numBook
+			ORDER BY $orderCol $order";
+
+	if ($result = mysqli_query($conn, $sql)) {
+		echo print_table('n_book_before_age', $result);
+		echo "<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
+	} else {
+		echo "Error finding authors: " . $conn->error;
+	}
+}
+
+
