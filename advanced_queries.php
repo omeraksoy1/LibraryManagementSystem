@@ -12,8 +12,8 @@
 
 <br>
 
-<form action="placeholder1.php">
-    <input type="submit" value="Placeholder 1" />
+<form action="average_age_by_rating.php">
+    <input type="submit" value="Average Author Age by Average Rating and Category" />
 </form>
 
 <br>

@@ -406,3 +406,23 @@ if (isset($_POST['author_n_book_query'])) {
 		echo "Error finding authors: " . $conn->error;
 	}
 }
+
+if (isset($_POST['average_age_by_rating'])) {
+
+	$rating = $_POST["average_rating"];
+	$order = $_POST["order_by"];
+	$orderCol = $_POST["order_col"];
+
+	$sql = "SELECT Category, AVG(publication_date - Bdate) as Average_Age
+			FROM books B,authors A, section S
+			WHERE B.authors=A.Author and S.sectionid=B.SectionID and average_rating > $rating
+			GROUP BY Category 
+			ORDER BY $orderCol $order";
+
+	if ($result = mysqli_query($conn, $sql)) {
+		echo print_table('category_age', $result);
+		echo "<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
+	} else {
+		echo "Error finding authors: " . $conn->error;
+	}
+}

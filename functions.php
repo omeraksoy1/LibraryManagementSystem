@@ -273,4 +273,34 @@ function print_table($table_name, $result){
         echo "</table>";
     }
 
+    if ($table_name === 'category_age') {
+
+        ?><br>
+
+        <table border='1'>
+
+        <tr>
+
+        <th>Category</th>
+
+        <th>Average Age</th>
+
+        </tr>
+
+        <?php
+
+        foreach($result as $row){
+
+            echo "<tr>";
+
+            echo "<td>" . $row['Category'] . "</td>";
+
+            echo "<td>" . $row['Average_Age'] . "</td>";
+
+            echo "</tr>";
+        }
+
+        echo "</table>";
+    }
+
 }
