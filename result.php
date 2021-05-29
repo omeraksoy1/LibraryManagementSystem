@@ -384,5 +384,25 @@ if (isset($_POST['delete_author'])) {
 	} else {
         echo "Error deleting author: " . $conn->error;
     }
+}
 
+if (isset($_POST['author_n_book_query'])) {
+	
+	$numBook = $_POST["num_book"];
+	$order = $_POST["order_by"];
+	$orderCol = $_POST["order_col"];
+
+	$sql = "SELECT B.authors as Author, count(*) as NumberOfBooks, round(avg(B.average_rating), 2) as AverageRating
+			FROM books as B, authors as A
+			WHERE B.authors=A.author
+			GROUP BY A.author
+			HAVING count(*) > $numBook
+			ORDER BY $orderCol $order";
+	
+	if ($result = mysqli_query($conn, $sql)) {
+		echo print_table('author_n', $result);
+		echo "<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
+	} else {
+		echo "Error finding authors: " . $conn->error;
+	}
 }

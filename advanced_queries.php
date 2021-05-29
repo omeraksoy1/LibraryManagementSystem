@@ -6,8 +6,8 @@
 
 <h2>Advanced Operations</h2>
 
-<form action="insert_book.php">
-    <input type="submit" value="Leading Department by Category" />
+<form action="author_n_book.php">
+    <input type="submit" value="Author Ratings w/at Least N Books" />
 </form>
 
 <br>

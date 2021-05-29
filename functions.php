@@ -238,4 +238,39 @@ function print_table($table_name, $result){
         echo "</table>";
     }
 
+    if ($table_name === 'author_n') {
+
+        ?><br>
+
+        <table border='1'>
+
+        <tr>
+
+        <th>Author</th>
+
+        <th>NumberOfBooks</th>
+
+        <th>AverageRating</th>
+
+        </tr>
+
+        <?php
+
+
+        foreach($result as $row){
+
+            echo "<tr>";
+
+            echo "<td>" . $row['Author'] . "</td>";
+
+            echo "<td>" . $row['NumberOfBooks'] . "</td>";
+
+            echo "<td>" . $row['AverageRating'] . "</td>";
+
+            echo "</tr>";
+        }
+
+        echo "</table>";
+    }
+
 }
