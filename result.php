@@ -425,14 +425,14 @@ if (isset($_POST['average_age_by_rating'])) {
 	$sql = "SELECT Category, AVG(publication_date - Bdate) as Average_Age
 			FROM books B,authors A, section S
 			WHERE B.authors=A.Author and S.sectionid=B.SectionID and average_rating ".$comparison." $rating
-			GROUP BY Category 
+			GROUP BY Category
 			ORDER BY $orderCol $order";
 
 	if ($result = mysqli_query($conn, $sql)) {
 		echo print_table('category_age', $result);
 		echo "<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
 	} else {
-		echo "Error finding authors: " . $conn->error;
+		echo "Error displaying data: " . $conn->error;
 	}
 }
 
@@ -470,4 +470,22 @@ if (isset($_POST['n_book_before_age'])) {
 	}
 }
 
+if (isset($_POST['most_borrowed'])) {
+
+	$sql = "SELECT Month as Month, category, max(C) as NumOfBorrow
+			FROM (SELECT category, count(*) as C, MONTH(BorrowDate) as Month
+					FROM borrow bo, Books B, section S
+					WHERE bo.bookID=B.bookID and B.SectionID=S.sectionid
+					GROUP BY MONTH(BorrowDate), Category) as e3
+			GROUP BY Month 
+			ORDER BY Month";
+
+	if ($result = mysqli_query($conn, $sql)) {
+		echo print_table('borrowed', $result);
+		echo "<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
+	} else {
+		echo "Error finding authors: " . $conn->error;
+	}
+
+}
 

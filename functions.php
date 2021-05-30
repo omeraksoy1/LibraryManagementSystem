@@ -333,4 +333,38 @@ function print_table($table_name, $result){
         echo "</table>";
     }
 
+    if ($table_name === 'borrowed') {
+
+        ?><br>
+
+        <table border='1'>
+
+        <tr>
+
+        <th>Month</th>
+
+        <th>Category
+        
+        <th>Number of Borrows</th>
+
+        </tr>
+
+        <?php
+
+        foreach($result as $row){
+
+            echo "<tr>";
+
+            echo "<td>" . $row['Month'] . "</td>";
+
+            echo "<td>" . $row['category'] . "</td>";
+            
+            echo "<td>" . $row['NumOfBorrow'] . "</td>";
+
+            echo "</tr>";
+        }
+
+        echo "</table>";
+    }
+
 }
