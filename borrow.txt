@@ -1,2 +1,0 @@
-INSERT INTO `borrows` (`BID`, `SID`, `DateBorrowed`, `DateReturned`) VALUES ('1', '8122412', '2021-05-07', '2021-05-10');
-INSERT INTO `borrows` (`BID`, `SID`, `DateBorrowed`, `DateReturned`) VALUES ('2', '3498817', '2021-03-07', '2021-03-15');
