@@ -10,8 +10,16 @@
 <body>
 
 <br/><form action='result.php' method='post'>
-        <br/>
-        <input name="most_borrowed", value='Display' type='submit'/></p>
+        <label>Order by:        <select name="order_col">
+                                    <option value="Month">Month</option>
+                                    <option value="NumOfBorrow">Number of Borrows</option>
+                                        </select> </label>
+                                <select name="order_by">
+                                    <option value="asc">Ascending</option>
+                                    <option value="desc">Descending</option>
+                                        </select>
+                            <br/>
+                <input name="most_borrowed", value='Display' type='submit'/></p>
     </form>
 
     <hr>

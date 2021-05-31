@@ -14,7 +14,7 @@ function check_authors($authors){
 }
 
 function check_average_rating($average_rating){
-    return is_numeric($average_rating);
+    return is_numeric($average_rating) && $average_rating <= 5 && $average_rating >= 0;
 }
 
 function check_isbn($isbn){
@@ -343,7 +343,7 @@ function print_table($table_name, $result){
 
         <th>Month</th>
 
-        <th>Category
+        <th>Category</th>
         
         <th>Number of Borrows</th>
 
@@ -367,4 +367,33 @@ function print_table($table_name, $result){
         echo "</table>";
     }
 
+    if ($table_name === 'author_country') {
+
+        ?><br>
+
+        <table border='1'>
+
+        <tr>
+
+        <th>Country of Birth</th>
+        
+        <th>Number of Authors</th>
+
+        </tr>
+
+        <?php
+
+        foreach($result as $row){
+
+            echo "<tr>";
+
+            echo "<td>" . $row['BCountry'] . "</td>";
+            
+            echo "<td>" . $row['numAuthors'] . "</td>";
+
+            echo "</tr>";
+        }
+
+        echo "</table>";
+    }
 }

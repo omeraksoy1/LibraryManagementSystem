@@ -12,23 +12,23 @@ if (isset($_POST['insert_book'])){
     $isbn = $_POST["isbn"];
 
     if(check_bookID($bookID) !== true){
-        exit("bookID must be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+        exit("ID must be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
     }
 
     if(check_title($title) !== true){
-        exit("title cannot be empty!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+        exit("Title cannot be empty!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
     }
 
     if(check_authors($authors) !== true){
-        exit("authors cannot be empty!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+        exit("Author field cannot be empty!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
     }
 
     if(check_average_rating($average_rating) !== true){
-        exit("average_rating must be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+        exit("<br>Average rating must be non-empty and between 0 and 5 (inclusive)!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
     }
 
     if(check_isbn($isbn) !== true){
-        exit("isbn must be numeric!");
+        exit("<br>ISBN must be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
     }
 
     $result = is_contains($conn, $bookID, "bookID", "books");
@@ -466,11 +466,14 @@ if (isset($_POST['n_book_before_age'])) {
 		echo print_table('n_book_before_age', $result);
 		echo "<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
 	} else {
-		echo "Error finding authors: " . $conn->error;
+		echo "Error finding authors and books: " . $conn->error;
 	}
 }
 
 if (isset($_POST['most_borrowed'])) {
+
+	$order = $_POST["order_by"];
+	$orderCol = $_POST["order_col"];
 
 	$sql = "SELECT Month as Month, category, max(C) as NumOfBorrow
 			FROM (SELECT category, count(*) as C, MONTH(BorrowDate) as Month
@@ -478,14 +481,43 @@ if (isset($_POST['most_borrowed'])) {
 					WHERE bo.bookID=B.bookID and B.SectionID=S.sectionid
 					GROUP BY MONTH(BorrowDate), Category) as e3
 			GROUP BY Month 
-			ORDER BY Month";
+			ORDER BY $orderCol $order";
 
 	if ($result = mysqli_query($conn, $sql)) {
 		echo print_table('borrowed', $result);
 		echo "<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
 	} else {
-		echo "Error finding authors: " . $conn->error;
+		echo "Error finding books and categories: " . $conn->error;
 	}
 
 }
 
+if (isset($_POST['author_nationality'])) {
+
+	$rating = $_POST["average_rating"];
+	$gender = $_POST["gender"];
+	$order = $_POST["order_by"];
+	$orderCol = $_POST["order_col"];
+	$comparison = $_POST["operation"];
+
+	if (check_average_rating($rating) !== true) {
+		exit("<br>Average rating should be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+	}
+
+	$sql = "SELECT BCountry, count(*) as numAuthors
+			FROM authors A, books B, section S
+			WHERE A.Author=B.authors AND B.SectionID=S.sectionID AND A.Gender='$gender' 
+						AND B.average_rating $comparison $rating AND bookID in 	(	SELECT bookID
+																					FROM borrow bo)
+			GROUP BY BCountry
+			HAVING count(*)>0
+			ORDER BY $orderCol $order";
+
+	if ($result = mysqli_query($conn, $sql)) {
+		echo print_table('author_country', $result);
+		echo "<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>";
+	} else {
+		echo "Error finding authors and countries: " . $conn->error;
+	}
+
+}

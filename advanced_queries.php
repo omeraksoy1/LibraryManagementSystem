@@ -13,7 +13,7 @@
 <br>
 
 <form action="average_age_by_rating.php">
-    <input type="submit" value="Average Author Age by Average Rating and Category" />
+    <input type="submit" value="Average Author Age by Average Rating & Category" />
 </form>
 
 <br>
@@ -30,8 +30,8 @@
 
 <br>
 
-<form action="placeholder4.php">
-    <input type="submit" value="Placeholder 4" />
+<form action="author_nationality.php">
+    <input type="submit" value="Author Nationality by Gender & Rating" />
 </form>
 
 <hr>
