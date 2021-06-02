@@ -7,4 +7,5 @@ This is the repository for our group project on the COMP306: Database Management
 - Insert book, delete book, search book, borrow book, return book
 - Insert student, delete student, search student
 - Insert author, delete author
+
 Furthermore, we wanted to allow the user to be able to easily analyze the data at hand, which we later designed and integrated into the system as part of the complex queries requirement of the project.
