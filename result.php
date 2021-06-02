@@ -275,7 +275,7 @@ if (isset($_POST['insert_student'])){
     $Entry_Year = $_POST["Entry_Year"];
 
     if(check_SID($SID) !== true){
-        exit("SID must be numeric and positive value!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+        exit("SID must be 7 digits and positive!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
     }
 
     if(check_Name($Name) !== true){
