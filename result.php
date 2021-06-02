@@ -173,7 +173,7 @@ if (isset($_POST['borrow_book'])){
 		}	
 		
 		$where_string = "bookID = ".$bookID;
-		$result = search($conn, $where_string, "borrows");
+		$result = search($conn, $where_string, "borrow");
 		if( $result != False){
 			foreach( $result as $row){
 				if( is_null($row["ReturnDate"])){
@@ -232,14 +232,21 @@ if (isset($_POST['return_book'])){
 		}
 		
 		$where_string = "bookID = ".$bookID." and SID = ".$SID." and ReturnDate is NULL";
-		$result = search($conn, $where_string, "borrows");
+		$result = search($conn, $where_string, "borrow");
 		if( $result != False){
 			$row = mysqli_fetch_row($result);
 			$deadline = $row[3];
+			$borrow_date = $row[2];
 			$date1 = new DateTime($my_return_date);
 			$date2 = new DateTime($deadline);
-			$diff = $date1->diff($date2); #date2 - date1
+			$date3 = new DateTime($borrow_date);
+			$diff = $date1->diff($date2); #date2 - date1 (this is for penalty calculation)
+			$diff_past = $date1->diff($date3); #date3 - date1 (this is for checking past date)
 			#echo $diff->format("%r%a");
+			if($diff_past->format("%r%a") >= 0){ #cannot return in past
+				echo "You cannot return a book in previous date than ".$borrow_date;
+				exit("<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+			}
 			if($diff->format("%r%a") >= 0){ #no penalty
 				update_borrow($conn, $bookID, $SID, $row[2], $my_return_date, $LID, 0);
 				echo "Your book is returned without penalty!";
@@ -268,7 +275,7 @@ if (isset($_POST['insert_student'])){
     $Entry_Year = $_POST["Entry_Year"];
 
     if(check_SID($SID) !== true){
-        exit("SID must be numeric!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
+        exit("SID must be numeric and positive value!<br><form action=\"index.php\"><input type=\"submit\" value=\"Back to Main Menu\" /></form>");
     }
 
     if(check_Name($Name) !== true){
