@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "ROOT_PASSWORD*";
-$dbname = "DATABASE_NAME";
+$password = "";
+$dbname = "library5";
 
 // Create connection
 $conn = mysqli_connect($servername,$username,$password,$dbname);

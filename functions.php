@@ -54,7 +54,7 @@ function remove_book($conn, $bookID){
 }
 
 function update_borrow($conn, $bookID, $SID, $BorrowDate, $my_return_date, $LID){
-	$sql = "UPDATE borrows SET ReturnDate = '".$my_return_date."', LID_return = ".$LID." WHERE bookID=".$bookID." and SID = ".$SID." and BorrowDate = '".$BorrowDate."'";
+	$sql = "UPDATE borrow SET ReturnDate = '".$my_return_date."', LID_return = ".$LID." WHERE bookID=".$bookID." and SID = ".$SID." and BorrowDate = '".$BorrowDate."'";
     #echo $sql;
 	if ($result = mysqli_query($conn, $sql)) {
         echo "<br>Borrow updated successfully!";
@@ -73,7 +73,7 @@ function insert_student($conn, $SID, $Name, $Surname, $Department, $Entry_Year){
 }
 
 function insert_borrow($conn, $bookID, $SID, $my_borrow_date, $my_return_date, $LID){
-	$sql = "INSERT INTO borrows(bookID, SID, BorrowDate, ReturnDateDeadline, LID_borrow) VALUES('$bookID', '$SID', '$my_borrow_date', '$my_return_date', '$LID');";
+	$sql = "INSERT INTO borrow(bookID, SID, BorrowDate, ReturnDateDeadline, LID_borrow) VALUES('$bookID', '$SID', '$my_borrow_date', '$my_return_date', '$LID');";
     if ($result = mysqli_query($conn, $sql)) {
         echo "<br>Borrow operation is successful!";
 		echo "<br>Your return date deadline is ".$my_return_date;
@@ -93,7 +93,7 @@ function remove_student($conn, $SID){
 }
 
 function check_SID($SID){
-    return is_numeric($SID);
+    return is_numeric($SID) and $SID>0 and strlen((string)$SID)==7;
 }
 
 function check_Name($Name){
@@ -345,7 +345,7 @@ function print_table($table_name, $result){
 
         <th>Category</th>
         
-        <th>Number of Borrows</th>
+        <th>Number of borrow</th>
 
         </tr>
 
