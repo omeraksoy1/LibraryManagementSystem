@@ -1,6 +1,7 @@
 # Library Management System
 
-> This is the repository for our group project on the COMP306: Database Management Systems course in Koç University.
+> This is the repository for our group project on the COMP306: Database Management Systems course in Koç University. 
+###### Do not forget to modify dbConnect.php to successfully connect to your local MySQL server.
 
 
 
