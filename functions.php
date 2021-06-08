@@ -230,7 +230,7 @@ function print_table($table_name, $result){
 
             echo "<td>" . $row['Entry_Year'] . "</td>";
 
-            echo "<td>" . $row['Mail'] . "</td>";
+            echo "<td>" . $row['mail'] . "</td>";
 
             echo "</tr>";
         }

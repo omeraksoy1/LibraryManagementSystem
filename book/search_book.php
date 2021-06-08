@@ -9,7 +9,7 @@
     </head> 
 <body>
 
-<br/><form action='result.php' method='post'>
+<br/><form action='../result.php' method='post'>
         <label>ID:              </label><input type='number' name='bookID' /><br/>
         <label>Title:           </label><input type='text' name='title' /><br/>
         <label>Authors:         </label><input type='text' name='authors' /><br/>

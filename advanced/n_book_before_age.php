@@ -9,7 +9,7 @@
     </head> 
 <body>
 
-<br/><form action='result.php' method='post'>
+<br/><form action='../result.php' method='post'>
         <label>Age:      </label><input type='number' name='age' /><br/>
         <label>No. of Books:    <select name="operation">
                                     <option value="greater">></option>

@@ -1,5 +1,5 @@
 <html>
-<head><strong><big>Delete Student</big></strong>
+<head><strong><big>Search Student</big></strong>
     <style>
         label {
             width: 80px;
@@ -9,8 +9,8 @@
     </head>
 <body>
 
-    <form action='result.php' method='post'>
-        <label>Student ID:</label><input type='number' name='SID' /><input name="delete_student", value='Delete' type='submit'/></p>
+    <form action='../result.php' method='post'>
+        <label>Student ID:</label><input type='number' name='SID' /><input name="search_student", value='Search' type='submit'/></p>
     </form>
     <hr>
 

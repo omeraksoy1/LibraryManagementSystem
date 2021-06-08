@@ -9,7 +9,7 @@
     </head>
 <body>
 
-    <form action='result.php' method='post'>
+    <form action='../result.php' method='post'>
         <label>ID: </label><input type='number' name='bookID' /><input name="delete_book", value='Delete' type='submit'/></p>
     </form>
     <hr>

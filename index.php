@@ -9,25 +9,25 @@
 
 <h2>Main Menu</h2>
 
-<form action="book.php">
+<form action="book/book.php">
     <input type="submit" value="Book Operations" />
 </form>
 
 <br/>
 
-<form action="student.php">
+<form action="student/student.php">
     <input type="submit" value="Student Operations" />
 </form>
 
 <br/>
 
-<form action="author.php">
+<form action="author/author.php">
     <input type="submit" value="Author Operations" />
 </form>
 
 <br/>
 
-<form action="advanced_queries.php">
+<form action="advanced/advanced_queries.php">
     <input type="submit" value="Advanced Operations" />
 </form>
 

@@ -9,7 +9,7 @@
     </head> 
 <body>
 
-<br/><form action='result.php' method='post'>
+<br/><form action='../result.php' method='post'>
         <label>No. of Books:     </label><input type='number' name='num_book' /><br/>
         <label>Order by:        <select name="order_col">
                                     <option value="NumberOfBooks">No. of Books</option>

@@ -9,7 +9,7 @@
     </head> 
 <body>
 
-<br/><form action='result.php' method='post'>
+<br/><form action='../result.php' method='post'>
         <label>Average Rating:     <select name="operation">
                                     <option value=">">></option>
                                     <option value="<"><</option>

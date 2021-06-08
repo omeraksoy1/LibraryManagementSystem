@@ -9,7 +9,7 @@
     </head>
 <body>
 
-    <form action='result.php' method='post'>
+    <form action='../result.php' method='post'>
         <label>Student ID:         </label><input type='number' name='SID' /><br/>
         <label>Name:        </label><input type='text' name='Name' /><br/>
         <label>Surname: </label><input type='text' name='Surname' /><br/>

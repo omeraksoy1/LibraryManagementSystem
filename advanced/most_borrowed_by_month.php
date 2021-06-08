@@ -9,7 +9,7 @@
     </head> 
 <body>
 
-<br/><form action='result.php' method='post'>
+<br/><form action='../result.php' method='post'>
         <label>Order by:        <select name="order_col">
                                     <option value="Month">Month</option>
                                     <option value="NumOfBorrow">Number of Borrows</option>
